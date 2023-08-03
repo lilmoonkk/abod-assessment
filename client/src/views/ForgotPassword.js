@@ -1,37 +1,35 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/style.css'; 
 import logo from '../abod logo.png'; 
 import background from '../abod work_resized.jpg'; 
 
-function Login() {
+function ForgotPassword() {
     const [email, setemail] = useState('');
-    const [password, setpassword] = useState('');
-
-    useEffect(() => {
-
-    }, []);
 
     const handleSubmit = async() =>{
-        /*const res = await fetch('/user/login',{
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: email, 
-                password: pw
-            })
-        }).catch(error => alert(error.message));
-        if(res.ok){
-            const data = await res.json();
-            //If single value, use res.text()
-            sessionStorage.setItem('uid', data.uid);
-            sessionStorage.setItem('wallet_address', data.wallet_address);
-            window.location.replace('/')
-        } else {
-            setOpen(true)
-            setTimeout(() => {
-                setOpen(false)
-            }, 2000);
-        }*/
+        if(validateInput()){
+            const res = await fetch('/user/reset',{
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: email
+                })
+            }).catch(error => alert(error.message));
+            if(res.ok){
+                alert('A reset password link is sent to your email')
+            }else{
+                alert('Unsuccessful')
+            }
+        }else {
+            alert('Please fill up all the fields')
+        }
+    }
+
+    const validateInput = () => {
+        if (email === ''){
+            return false
+        }
+        return true
     }
 
     return(
@@ -57,4 +55,4 @@ function Login() {
 
 }
 
-export default Login;
+export default ForgotPassword;
